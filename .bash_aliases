@@ -7,3 +7,6 @@ alias ga="git add"
 
 # Docker aliases
 alias dps="docker ps"
+
+# General aliases
+alias gh="history|grep"
