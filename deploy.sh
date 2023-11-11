@@ -1,9 +1,7 @@
 #!/bin/zsh
 
-# tmux config
+cp .zshrc ~
 cp .tmux.conf ~
-
-# bash aliases
 cp .bash_aliases ~
 
 source ~/.zshrc
