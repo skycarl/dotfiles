@@ -8,6 +8,9 @@ alias gitupdate='find . -name .git -print -execdir git pull \;'
 
 # Docker aliases
 alias dps="docker ps"
+alias dcu="docker compose up"
+alias dcd="docker compose down"
+alias dcb="docker compose build"
 
 # General aliases
 alias gh="history|grep"
