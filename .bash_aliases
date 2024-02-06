@@ -13,7 +13,7 @@ alias dcd="docker compose down"
 alias dcb="docker compose build"
 
 # General aliases
-alias gh="history|grep"
+alias grh="history|grep"
 alias jl="jupyter lab"
 alias cna="conda activate"
 alias cnd="conda deactivate"

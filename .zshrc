@@ -137,3 +137,7 @@ bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 
 export GIT_PAGER=bat
+
+# 1Password CLI config
+source ~/.config/op/plugins.sh
+
