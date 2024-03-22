@@ -264,3 +264,6 @@ ghce() {
 # Environment variables from 1Password
 export TELEGRAM_BOT_TOKEN=$(op read "op://Private/Telegram IOU Bot API key/credential")
 export GITHUB_TOKEN=$(op read "op://Private/GitHub classic PAT/token")
+
+# Add local binaries to PATH to enable things like poetry
+export PATH="/Users/skylercarlson/.local/bin:$PATH"
