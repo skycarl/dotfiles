@@ -124,5 +124,6 @@ bindkey '^[f' forward-word
 export GIT_PAGER=bat
 
 # 1Password CLI config
-source ~/.config/op/plugins.sh
+# commenting out because it seems to conflict with gh
+# source ~/.config/op/plugins.sh
 
