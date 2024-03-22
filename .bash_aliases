@@ -26,3 +26,6 @@ alias sz='source ~/.zshrc'
 alias sha='shasum -a 256 '
 alias untar='tar -zxvf '
 alias tar='tar -czvf '
+
+# Workaround for op and gh plugin conflicts
+alias gh="env -u GITHUB_TOKEN gh $1"
