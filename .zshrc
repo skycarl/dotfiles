@@ -260,3 +260,7 @@ ghce() {
 
 	GH_DEBUG="$GH_DEBUG" gh copilot explain "$@"
 }
+
+# Environment variables from 1Password
+export TELEGRAM_BOT_TOKEN=$(op read "op://Private/Telegram IOU Bot API key/credential")
+export GITHUB_TOKEN=$(op read "op://Private/GitHub classic PAT/token")
