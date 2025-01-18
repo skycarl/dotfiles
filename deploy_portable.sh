@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 cp .tmux.conf ~
 cp .portable_config ~
