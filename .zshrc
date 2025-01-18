@@ -115,18 +115,6 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Load .bash_aliases
-if [ -f ~/.bash_aliases ]; then
-. ~/.bash_aliases
-fi
-
-# Skip by a word at a time
-bindkey -e
-bindkey '^[b' backward-word
-bindkey '^[f' forward-word
-
-export GIT_PAGER=bat
-
 # 1Password CLI config
 # commenting out because it seems to conflict with gh
 # source ~/.config/op/plugins.sh
@@ -267,3 +255,12 @@ ghce() {
 
 # Add local binaries to PATH to enable things like poetry
 export PATH="/Users/skylercarlson/.local/bin:$PATH"
+
+# Load configs if present
+if [ -f ~/.portable_config ]; then
+    . ~/.portable_config
+fi
+
+if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi
