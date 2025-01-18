@@ -1,44 +1,133 @@
+# ------------------------------------------------------------------------------
+# Detect which shell is running
+# ------------------------------------------------------------------------------
 
-# Detect OS
-if [[ "$(uname)" == "Darwin" ]]; then
-    # macOS
-    bindkey -e
-    bindkey '^[b' backward-word
-    bindkey '^[f' forward-word
-elif [[ -f /etc/system-release && $(grep -i "amazon linux" /etc/system-release) ]]; then
-    # Amazon Linux 2
-    bindkey -e
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
-elif [[ -f /etc/os-release && $(grep -qi "ubuntu" /etc/os-release) ]]; then
-    # Ubuntu
-    bindkey -e
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
-elif [[ -f /etc/os-release && $(grep -qi "red hat" /etc/os-release) ]]; then
-    # RHEL
-    bindkey -e
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
-else
-    # Others
-    bindkey -e
-    bindkey '^[b' backward-word
-    bindkey '^[f' forward-word
-fi
+if [ -n "$ZSH_VERSION" ]; then
+    ############################################################################
+    #                           Z S H   C O N F I G                            #
+    ############################################################################
 
-# Enable autocompletion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-if [[ -n "$ZSH_VERSION" ]]; then
+    # --------------------------------------------------------------------------
+    # OS-specific keybindings for Zsh
+    # --------------------------------------------------------------------------
+    if [[ "$(uname)" == "Darwin" ]]; then
+        # macOS
+        bindkey -e
+        bindkey '^[b' backward-word
+        bindkey '^[f' forward-word
+    elif [[ -f /etc/system-release && $(grep -i "amazon linux" /etc/system-release) ]]; then
+        # Amazon Linux 2
+        bindkey -e
+        bindkey '^[[1;5D' backward-word
+        bindkey '^[[1;5C' forward-word
+    elif [[ -f /etc/os-release && $(grep -qi "ubuntu" /etc/os-release) ]]; then
+        # Ubuntu
+        bindkey -e
+        bindkey '^[[1;5D' backward-word
+        bindkey '^[[1;5C' forward-word
+    elif [[ -f /etc/os-release && $(grep -qi "red hat" /etc/os-release) ]]; then
+        # RHEL
+        bindkey -e
+        bindkey '^[[1;5D' backward-word
+        bindkey '^[[1;5C' forward-word
+    else
+        # Others
+        bindkey -e
+        bindkey '^[b' backward-word
+        bindkey '^[f' forward-word
+    fi
+
+    # --------------------------------------------------------------------------
+    # Zsh completion and history
+    # --------------------------------------------------------------------------
+    # Enable case-insensitive matching in completion
+    zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+    # Load Zsh completion system
     autoload -Uz compinit && compinit
-elif [[ -n "$BASH_VERSION" ]]; then
-    autoload -U compinit && compinit
+
+    # Incremental history search with up/down arrows
+    bindkey '^[[A' history-search-backward
+    bindkey '^[[B' history-search-forward
+
+    # Zsh-specific history settings
+    HISTFILE=~/.zsh_history
+    HISTSIZE=10000
+    SAVEHIST=10000
+    setopt HIST_IGNORE_DUPS
+    setopt HIST_IGNORE_ALL_DUPS
+    setopt HIST_IGNORE_SPACE
+    setopt HIST_VERIFY
+
+    # Additional Zsh-specific behaviors
+    setopt EXTENDED_GLOB    # More powerful globbing
+    setopt AUTO_CD          # Allows changing dirs without typing 'cd'
+    setopt CORRECT          # Correct minor typos in directory/command names
+
+elif [ -n "$BASH_VERSION" ]; then
+    ############################################################################
+    #                          B A S H   C O N F I G                            #
+    ############################################################################
+
+    # --------------------------------------------------------------------------
+    # OS-specific keybindings for Bash
+    # --------------------------------------------------------------------------
+    if [[ "$(uname)" == "Darwin" ]]; then
+        # macOS
+        bind 'set editing-mode emacs'
+        bind '"\eb": backward-word'
+        bind '"\ef": forward-word'
+    elif [[ -f /etc/system-release && $(grep -i "amazon linux" /etc/system-release) ]]; then
+        # Amazon Linux 2
+        bind 'set editing-mode emacs'
+        bind '"\e[1;5D": backward-word'
+        bind '"\e[1;5C": forward-word'
+    elif [[ -f /etc/os-release && $(grep -qi "ubuntu" /etc/os-release) ]]; then
+        # Ubuntu
+        bind 'set editing-mode emacs'
+        bind '"\e[1;5D": backward-word'
+        bind '"\e[1;5C": forward-word'
+    elif [[ -f /etc/os-release && $(grep -qi "red hat" /etc/os-release) ]]; then
+        # RHEL
+        bind 'set editing-mode emacs'
+        bind '"\e[1;5D": backward-word'
+        bind '"\e[1;5C": forward-word'
+    else
+        # Others
+        bind 'set editing-mode emacs'
+        bind '"\eb": backward-word'
+        bind '"\ef": forward-word'
+    fi
+
+    # --------------------------------------------------------------------------
+    # Bash completion and history
+    # --------------------------------------------------------------------------
+    # If bash-completion is installed, source it
+    if [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    elif [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    fi
+
+    # Enable case-insensitive tab completion
+    bind "set completion-ignore-case on"
+
+    # Incremental history search with up/down
+    bind '"\e[A": history-search-backward'
+    bind '"\e[B": history-search-forward'
+
+    # Bash history settings
+    HISTFILE=~/.bash_history
+    HISTSIZE=10000
+    HISTCONTROL=ignoredups:ignorespace
+
 fi
 
-# Incremental history search with up/down arrows
-bindkey '^[[A' history-search-backward
-bindkey '^[[B' history-search-forward
+# ------------------------------------------------------------------------------
+# Common environment variables and aliases (for both shells)
+# ------------------------------------------------------------------------------
 
+# Prefer 'bat' if installed, otherwise 'cat'
 export GIT_PAGER=$(command -v bat >/dev/null 2>&1 && echo "bat" || echo "cat")
 
 alias ll='ls -lah'
@@ -58,8 +147,7 @@ alias dcd="docker compose down"
 alias dcb="docker compose build"
 
 # General aliases
-alias grh="history|grep"
-alias sha='shasum -a 256 '
+alias grh="history | grep"
 alias ping='ping -c 5'
 alias ipe='curl ipinfo.io/ip'
 alias ipi='ipconfig getifaddr en0'
@@ -68,16 +156,3 @@ alias sz='source ~/.zshrc'
 alias sha='shasum -a 256 '
 alias untar='tar -zxvf '
 alias tar='tar -czvf '
-
-# Save more history, ignore duplicates and lines starting with space
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_VERIFY
-
-setopt EXTENDED_GLOB
-setopt AUTO_CD
-setopt CORRECT
