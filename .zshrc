@@ -264,7 +264,7 @@ ghce() {
 # But - just read and edit the code however you like
 # the `llm` CLI util is awesome, can get it here: https://llm.datasette.io/en/stable/
 
-gcm() {
+gcml() {
     # Function to generate commit message
     generate_commit_message() {
         git diff --cached | llm -m "4o-mini" "
@@ -341,11 +341,11 @@ if [ -f ~/.portable_config ]; then
 fi
 
 if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
+    . ~/.bash_aliases
 fi
 
 if [ -f ~/.env ]; then
-	. ~/.env
+    . ~/.env
 fi
 
 # Added by LM Studio CLI (lms)
