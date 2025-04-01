@@ -340,12 +340,8 @@ if [ -f ~/.portable_config ]; then
     . ~/.portable_config
 fi
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-if [ -f ~/.env ]; then
-    . ~/.env
+if [ -f ~/.local_config ]; then
+    . ~/.local_config
 fi
 
 # Added by LM Studio CLI (lms)
