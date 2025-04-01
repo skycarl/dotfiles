@@ -15,7 +15,6 @@ create_symlink() {
 config_files=(
     ".zshrc"
     ".tmux.conf"
-    ".bash_aliases"
     ".gitconfig"
 )
 
