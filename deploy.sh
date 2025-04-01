@@ -16,6 +16,7 @@ config_files=(
     ".zshrc"
     ".tmux.conf"
     ".gitconfig"
+    ".portable_config"
 )
 
 # Create symlinks for config files
