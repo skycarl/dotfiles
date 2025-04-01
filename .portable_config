@@ -13,8 +13,8 @@ if [ -n "$ZSH_VERSION" ]; then
     if [[ "$(uname)" == "Darwin" ]]; then
         # macOS
         bindkey -e
-        bindkey '^[b' backward-word
-        bindkey '^[f' forward-word
+        bindkey '^[[1;3D' backward-word
+        bindkey '^[[1;3C' forward-word
     elif [[ -f /etc/system-release && $(grep -i "amazon linux" /etc/system-release) ]]; then
         # Amazon Linux 2
         bindkey -e
@@ -75,8 +75,8 @@ elif [ -n "$BASH_VERSION" ]; then
     if [[ "$(uname)" == "Darwin" ]]; then
         # macOS
         bind 'set editing-mode emacs'
-        bind '"\eb": backward-word'
-        bind '"\ef": forward-word'
+        bind '"\e[1;3D": backward-word'
+        bind '"\e[1;3C": forward-word'
     elif [[ -f /etc/system-release && $(grep -i "amazon linux" /etc/system-release) ]]; then
         # Amazon Linux 2
         bind 'set editing-mode emacs'
