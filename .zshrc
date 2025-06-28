@@ -346,3 +346,6 @@ fi
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/skylercarlson/.cache/lm-studio/bin"
+
+# Alias for default template for LLM CLI
+llmt() { llm -t brief_cli "$@" }
