@@ -1,3 +1,15 @@
+# ─── Cursor Agent detection ──────────────────────────────────────────────
+# This MUST be the very first executable lines in ~/.zshrc.
+# Cursor’s background “Agent Terminal” always sets npm_config_yes=true.
+if [[ $npm_config_yes == true ]]; then
+  POWERLEVEL9K_INSTANT_PROMPT=off        # keep P10k’s instant-prompt from firing
+  PROMPT='%n@%m:%~%# '                   # simple prompt Agent can parse
+  return                                  # stop sourcing the rest of ~/.zshrc
+fi
+# ─────────────────────────────────────────────────────────────────────────
+
+# ======================================================
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -349,3 +361,57 @@ export PATH="$PATH:/Users/skylercarlson/.cache/lm-studio/bin"
 
 # Alias for default template for LLM CLI
 llmt() { llm -t brief_cli "$@" }
+
+# Stop oh-my-zsh from loading plugins and themes in Cursor
+#if [[ -z $CURSOR_TRACE_ID ]]; then
+  # Normal interactive terminal ─ load everything
+#  source ~/.p10k.zsh        # or `ZSH_THEME="powerlevel10k/powerlevel10k"`
+#  source $ZSH/oh-my-zsh.sh
+#else
+  # Inside Cursor ─ minimal prompt
+#  PROMPT='%n %~ %# '
+#fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"
+
+# History file & lengths
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000        # in-memory commands
+SAVEHIST=200000       # how many lines to keep on disk
+
+# Safer, smarter history behavior
+setopt APPEND_HISTORY          # append instead of overwrite
+setopt INC_APPEND_HISTORY      # write to file immediately
+# setopt SHARE_HISTORY         # OPTIONAL: merge history across terminals
+setopt HIST_IGNORE_DUPS        # skip if same as previous
+setopt HIST_IGNORE_ALL_DUPS    # remove older dupes when adding a new one
+setopt HIST_SAVE_NO_DUPS       # don’t save dupes to file
+setopt HIST_EXPIRE_DUPS_FIRST  # trim oldest dupes first when shrinking
+setopt HIST_REDUCE_BLANKS      # squeeze extra spaces
+setopt HIST_IGNORE_SPACE       # commands starting with space aren’t saved
+setopt EXTENDED_HISTORY        # store timestamps + durations in file
+
+# Nice timestamps when listing history (oh-my-zsh reads this)
+HIST_STAMPS="yyyy-mm-dd"       # or use strftime like: "%F %T"
+
+# (Optional) helpful plugins
+plugins=(
+  git
+  history history-substring-search
+  zsh-autosuggestions zsh-syntax-highlighting
+  fzf
+)
+
+# history-substring-search arrow keys (optional)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+export PAGER=cat
+
+claude-update() {
+  local node_modules_dir="$HOME/.nvm/versions/node/$(node -v)/lib/node_modules/@anthropic-ai"
+  rm -rf "$node_modules_dir/claude-code" "$node_modules_dir/.claude-code-"* 2>/dev/null
+  npm i -g @anthropic-ai/claude-code
+}

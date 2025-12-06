@@ -157,3 +157,6 @@ alias sha='shasum -a 256 '
 alias untar='tar -zxvf '
 alias tar='tar -czvf '
 alias vsc='code -n .'
+
+# Pager for GitHub CLI
+export GH_PAGER=cat
