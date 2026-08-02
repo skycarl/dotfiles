@@ -1,11 +1,9 @@
 [gpg]
 	format = ssh
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
 	gpgsign = true
 [user]
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKLgvkMP0AynR7eqx6Bb2rrxI0hNUMkd3S3thwK/9tCF
+	signingkey = /Users/skylercarlson/.ssh/id_ed25519.pub
 	name = Skyler Carlson
 	email = skylercarlson28@gmail.com
 [core]
@@ -16,3 +14,8 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/local/bin/op plugin run -- gh auth git-credential
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
